@@ -17,11 +17,20 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@PostMapping
+	@PostMapping("/register")
 	public ResponseEntity<ResponseData> addUser(@RequestBody User user) {
 		try {
-			userService.saveUser(user);
-			return new ResponseEntity<>(new ResponseData("User added!", null), HttpStatus.CREATED);
+			User newUser = userService.saveUser(user);
+			return new ResponseEntity<>(new ResponseData("User added!", newUser), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(new ResponseData(e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<ResponseData> login(@RequestBody User user){
+		try {
+			return new ResponseEntity<>(new ResponseData("User logged in!", userService.login(user)), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(new ResponseData(e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

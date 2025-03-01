@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@EnableTransactionManagement
 @Configuration
+@EnableTransactionManagement
 public class TransactionConfig {
 
 	@Bean
