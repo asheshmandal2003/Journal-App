@@ -1,5 +1,8 @@
 package com.ashesh.journalApp.configs;
 
+import com.ashesh.journalApp.execeptions.JwtAccessDeniedHandler;
+import com.ashesh.journalApp.execeptions.JwtAuthenticationEntryPoint;
+import com.ashesh.journalApp.filters.JWTFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -23,6 +27,15 @@ public class SecurityConfig {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+
+	@Autowired
+	private JWTFilter jwtFilter;
+
+	@Autowired
+	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+	@Autowired
+	private JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,9 +45,13 @@ public class SecurityConfig {
 						req.requestMatchers("/api/v1/users/register", "/api/v1/users/login").permitAll()
 						.anyRequest().authenticated()
 				)
+				.exceptionHandling(e -> e
+						.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+						.accessDeniedHandler(jwtAccessDeniedHandler))
 				.httpBasic(Customizer.withDefaults())
 				.sessionManagement(session ->
 						session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 	}
 	

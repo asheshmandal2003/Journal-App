@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Component
@@ -32,14 +33,17 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	public String login(User user) throws Exception {
+	public Map<String, Object> login(User user) throws Exception {
 		Authentication authentication =
 				authenticationManager.authenticate(
 						new UsernamePasswordAuthenticationToken(
 								user.getUsername(), user.getPassword()));
 
 		if (authentication.isAuthenticated()){
-			return jwtService.generateToken(user.getUsername());
+			String token = jwtService.generateToken(user.getUsername());
+			User loggedUser = getUserByUsername(authentication.getName());
+
+			return Map.of("token", token, "user", loggedUser);
 		}
 		throw new Exception("Invalid credentials!");
 	}
