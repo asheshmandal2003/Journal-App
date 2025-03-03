@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: JournalApp
+  data:
+    mongodb:
+      uri:
+      database:
+      auto-index-creation:
+
+server:
+  port:
+  servlet:
+    context-path:
+
+jwt:
+  secret:
+  expiration:
