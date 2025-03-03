@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/users")
 public class UserController {
 
 	@Autowired
@@ -32,16 +32,6 @@ public class UserController {
 		try {
 			return new ResponseEntity<>(new ResponseData("User logged in!", userService.login(user)), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(new ResponseData(e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@GetMapping
-	public ResponseEntity<ResponseData> getAllUsers(){
-		try {
-			List<User> users = userService.getAllUsers();
-			return new ResponseEntity<>(new ResponseData("Users fetched!", users), HttpStatus.OK);
-		}catch (Exception e){
 			return new ResponseEntity<>(new ResponseData(e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

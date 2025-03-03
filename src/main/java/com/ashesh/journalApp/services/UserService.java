@@ -40,8 +40,8 @@ public class UserService {
 								user.getUsername(), user.getPassword()));
 
 		if (authentication.isAuthenticated()){
-			String token = jwtService.generateToken(user.getUsername());
 			User loggedUser = getUserByUsername(authentication.getName());
+			String token = jwtService.generateToken(user.getUsername(), loggedUser.getRoles());
 
 			return Map.of("token", token, "user", loggedUser);
 		}

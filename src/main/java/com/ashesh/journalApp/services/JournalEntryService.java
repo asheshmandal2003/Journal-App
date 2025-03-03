@@ -42,14 +42,19 @@ public class JournalEntryService {
 		return journalEntry.get();
 	}
 
-	public JournalEntry updateJournalEntry(ObjectId id, JournalEntry newJournalEntry, String username) throws Exception {
+	public JournalEntry updateJournalEntry(ObjectId id, JournalEntry newJournalEntry, String username)
+			throws Exception {
 		JournalEntry journalEntry = getJournalEntryById(id);
 
-		if (newJournalEntry.getTitle() != null && !newJournalEntry.getTitle().trim().isEmpty() && !newJournalEntry.getTitle().trim().equals(journalEntry.getTitle())) {
+		if (newJournalEntry.getTitle() != null
+				&& !newJournalEntry.getTitle().trim().isEmpty()
+				&& !newJournalEntry.getTitle().trim().equals(journalEntry.getTitle())) {
 			journalEntry.setTitle(newJournalEntry.getTitle().trim());
 		}
 
-		if (newJournalEntry.getContent() != null && !newJournalEntry.getContent().trim().isEmpty() && !newJournalEntry.getContent().trim().equals(journalEntry.getContent())) {
+		if (newJournalEntry.getContent() != null
+				&& !newJournalEntry.getContent().trim().isEmpty()
+				&& !newJournalEntry.getContent().trim().equals(journalEntry.getContent())) {
 			journalEntry.setContent(newJournalEntry.getContent().trim());
 		}
 
