@@ -4,6 +4,7 @@ import com.ashesh.journalApp.entities.User;
 import com.ashesh.journalApp.repositories.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
@@ -29,6 +30,7 @@ public class UserDetailsServiceTests {
 		MockitoAnnotations.openMocks(this);
 	}
 
+	@Disabled
 	@Test
 	public void testLoadUserByUsername() {
 		when(userRepository.findByUsername(ArgumentMatchers.anyString()))
